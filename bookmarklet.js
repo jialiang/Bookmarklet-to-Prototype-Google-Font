@@ -1,19 +1,39 @@
 javascript: (() => {
-  const fontLinkTemplate =
-    '<link data-bookmark="yes" data-fontname="{fontName}" href="https://fonts.googleapis.com/css2?family={fontNameNoSpace}:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900" rel="stylesheet">';
+  const fontLinkTemplate = `
+    <link
+      data-bookmark="yes"
+      data-fontname="{fontname}"
+      href="https://fonts.googleapis.com/css2?family={fontnameNoSpace}:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900"
+      rel="stylesheet"
+    />`;
 
-  const fontElems = document.querySelectorAll("link[data-bookmark='yes']");
+  const existingFontElems = document.querySelectorAll("link[data-bookmark='yes']");
   const existingFonts = [];
+
   let previouslyAdded = false;
 
-  for (let i = 0; i < fontElems.length; i++) existingFonts.push(fontElems[i].dataset.fontname);
+  for (let i = 0; i < existingFontElems.length; i++) {
+    existingFonts.push(existingFontElems[i].dataset.fontname);
+  }
 
-  const promptText = `Previously added:\n\n${existingFonts.join("\n")}\n\nFont Name:`;
+  let promptText = "Previously added:\n\n";
 
-  const fontName = prompt(promptText);
+  existingFonts.forEach((font, index) => {
+    promptText += `${index}. ${font}\n`;
+  });
 
-  for (let j = 0; j < fontElems.length; j++) {
-    if (existingFonts[j].toLowerCase() === fontName.toLowerCase()) {
+  promptText += "\nEnter name of font to add:";
+
+  let newFontname = prompt(promptText);
+
+  if (!isNaN(newFontname)) {
+    const index = parseInt(newFontname);
+
+    if (index < existingFonts.length) newFontname = existingFonts[index];
+  }
+
+  for (let j = 0; j < existingFontElems.length; j++) {
+    if (existingFonts[j].toLowerCase() === newFontname.toLowerCase()) {
       previouslyAdded = true;
       break;
     }
@@ -21,9 +41,9 @@ javascript: (() => {
 
   if (!previouslyAdded) {
     document.head.innerHTML += fontLinkTemplate
-      .replace(/{fontNameNoSpace}/gi, fontName.replace(/ /g, "+"))
-      .replace(/{fontName}/gi, fontName);
+      .replace(/{fontnameNoSpace}/gi, newFontname.replace(/ /g, "+"))
+      .replace(/{fontname}/gi, newFontname);
   }
 
-  document.body.style.setProperty("font-family", fontName, "important");
+  document.body.style.setProperty("font-family", newFontname, "important");
 })();
