@@ -10,4 +10,9 @@ A small bookmarklet I use to quickly prototype how fonts from Google Font looks 
 - Paste the font name in the pop up that appears.
 - The font file is added to your website and the font family of the body is set to the font you entered.
 
-You can also enter the corresponding number to switch to previously added font family.
+## Note
+
+- You can also enter the corresponding number to switch to previously added font family.
+- Font names are case-sensitive
+- leading and trailing whitespaces will automatically be trimmed from the input.
+- All font styles and weights are added (100 to 900 weight for both normal and italic).

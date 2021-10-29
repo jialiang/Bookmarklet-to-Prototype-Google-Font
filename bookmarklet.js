@@ -24,7 +24,7 @@ javascript: (() => {
 
   promptText += "\nEnter name of font to add:";
 
-  let newFontname = prompt(promptText);
+  let newFontname = prompt(promptText).trim();
 
   if (!isNaN(newFontname)) {
     const index = parseInt(newFontname);
