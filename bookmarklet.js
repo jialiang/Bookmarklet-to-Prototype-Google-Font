@@ -1,4 +1,33 @@
 javascript: (() => {
+  if (window.location.href.indexOf("fonts.google.com") > -1) {
+    const grid = document.querySelector("gf-grid-list");
+
+    const rightClickToCopy = function () {
+      const links = grid.querySelectorAll("a");
+
+      for (let i = 0; i < links.length; i++) {
+        if (links[i].getAttribute("draggable") === "false") return;
+
+        links[i].setAttribute("draggable", "false");
+        links[i].oncontextmenu = function (e) {
+          e.preventDefault();
+
+          const fontname = links[i].querySelector("h1").textContent;
+          navigator.clipboard.writeText(fontname);
+        };
+      }
+    };
+
+    const observer = new MutationObserver(rightClickToCopy);
+
+    observer.observe(grid, { childList: true, subtree: true });
+
+    rightClickToCopy();
+
+    alert("Right click on cards to copy font name.");
+    return;
+  }
+
   const fontLinkTemplate = `
     <link
       data-bookmark="yes"
