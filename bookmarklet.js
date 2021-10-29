@@ -53,7 +53,11 @@ javascript: (() => {
 
   promptText += "\nEnter name of font to add:";
 
-  let newFontname = prompt(promptText).trim();
+  let newFontname = prompt(promptText);
+
+  if (!newFontname) return;
+
+  newFontname = newFontname.trim();
 
   if (!isNaN(newFontname)) {
     const index = parseInt(newFontname);
